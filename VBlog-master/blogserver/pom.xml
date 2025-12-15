@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.sang</groupId>
-	<artifactId>blogserver</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>vblog</artifactId>
+	<version>1</version>
 	<packaging>jar</packaging>
 
-	<name>blogserver</name>
+	<name>vblog</name>
 	<description>Vue博客服务端</description>
 
 	<parent>

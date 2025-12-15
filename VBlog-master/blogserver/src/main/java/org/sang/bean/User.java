@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private String password;
     private String nickname;
     private boolean enabled;
-    private List<Role> roles;
+    private Integer role; // 1=超级管理员, 2=普通用户
     private String email;
     private String userface;
     private Timestamp regTime;
@@ -47,12 +47,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Integer getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Integer role) {
+        this.role = role;
     }
 
     public Long getId() {
@@ -98,8 +98,9 @@ public class User implements UserDetails {
     @JsonIgnore
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+        if (role != null) {
+            String roleName = role == 1 ? "超级管理员" : "普通用户";
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + roleName));
         }
         return authorities;
     }

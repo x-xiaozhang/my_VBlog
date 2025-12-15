@@ -43,31 +43,11 @@
           <div style="text-align: left;color:#20a0ff;font-size: 12px;margin-top: 13px">
             <span>用户角色:</span>
             <el-tag
-              v-for="role in user.roles"
-              :key="role.id"
               size="mini"
               style="margin-right: 8px"
               type="success">
-              {{role.name}}
+              {{ user.role === 1 ? '超级管理员' : '普通用户' }}
             </el-tag>
-            <el-popover
-              placement="right"
-              title="角色列表"
-              width="200"
-              :key="index+''+user.id"
-              @hide="saveRoles(user.id,index)"
-              trigger="click" v-loading="eploading[index]">
-              <el-select v-model="roles" :key="user.id" multiple placeholder="请选择" size="mini">
-                <el-option
-                  v-for="(item,index) in allRoles"
-                  :key="user.id+'-'+item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-              <el-button type="text" icon="el-icon-more" style="padding-top: 0px" slot="reference"
-                         @click="showRole(user.roles,user.id,index)"></el-button>
-            </el-popover>
           </div>
         </div>
       </el-card>
@@ -85,52 +65,8 @@
       this.cardloading = Array.apply(null, Array(20)).map(function (item, i) {
         return false;
       });
-      this.eploading = Array.apply(null, Array(20)).map(function (item, i) {
-        return false;
-      });
     },
     methods: {
-      saveRoles(id, index){
-        var selRoles = this.roles;
-        if (this.cpRoles.length == selRoles.length) {
-          for (var i = 0; i < this.cpRoles.length; i++) {
-            for (var j = 0; j < selRoles.length; j++) {
-              if (this.cpRoles[i].id == selRoles[j]) {
-                selRoles.splice(j, 1);
-                break;
-              }
-            }
-          }
-          if (selRoles.length == 0) {
-            return;
-          }
-        }
-        var _this = this;
-        _this.cardloading.splice(index, 1, true)
-        putRequest("/admin/user/role", {rids: this.roles, id: id}).then(resp=> {
-          if (resp.status == 200 && resp.data.status == 'success') {
-            _this.$message({type: resp.data.status, message: resp.data.msg});
-            _this.loadOneUserById(id, index);
-          } else {
-            _this.cardloading.splice(index, 1, false)
-            _this.$message({type: 'error', message: '更新失败!'});
-          }
-        }, resp=> {
-          _this.cardloading.splice(index, 1, false)
-          if (resp.response.status == 403) {
-            var data = resp.response.data;
-            _this.$message({type: 'error', message: data});
-          }
-        });
-      },
-      showRole(aRoles, id, index){
-        this.cpRoles = aRoles;
-        this.roles = [];
-        this.loadRoles(index);
-        for (var i = 0; i < aRoles.length; i++) {
-          this.roles.push(aRoles[i].id);
-        }
-      },
       deleteUser(id){
         var _this = this;
         this.$confirm('删除该用户, 是否继续?', '提示', {
@@ -174,24 +110,7 @@
           _this.loadOneUserById(id, index);
         });
       },
-      loadRoles(index){
-        var _this = this;
-        _this.eploading.splice(index, 1, true)
-        getRequest("/admin/roles").then(resp=> {
-          _this.eploading.splice(index, 1, false)
-          if (resp.status == 200) {
-            _this.allRoles = resp.data;
-          } else {
-            _this.$message({type: 'error', message: '数据加载失败!'});
-          }
-        }, resp=> {
-          _this.eploading.splice(index, 1, false)
-          if (resp.response.status == 403) {
-            var data = resp.response.data;
-            _this.$message({type: 'error', message: data});
-          }
-        });
-      },
+
       loadOneUserById(id, index){
         var _this = this;
         getRequest("/admin/user/" + id).then(resp=> {
@@ -234,13 +153,9 @@
     data(){
       return {
         loading: false,
-        eploading: [],
         cardloading: [],
         keywords: '',
-        users: [],
-        allRoles: [],
-        roles: [],
-        cpRoles: []
+        users: []
       }
     }
   }
