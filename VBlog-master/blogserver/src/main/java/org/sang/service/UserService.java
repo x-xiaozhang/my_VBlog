@@ -1,9 +1,6 @@
 package org.sang.service;
 
-import org.sang.bean.Role;
 import org.sang.bean.User;
-import org.sang.config.MyPasswordEncoder;
-import org.sang.mapper.RolesMapper;
 import org.sang.mapper.UserMapper;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
+
 
 import java.util.List;
 
@@ -26,8 +23,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    RolesMapper rolesMapper;
-    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Override
@@ -37,9 +32,6 @@ public class UserService implements UserDetailsService {
             //避免返回null，这里返回一个不含有任何值的User对象，在后期的密码比对过程中一样会验证失败
             return new User();
         }
-        //查询用户的角色信息，并返回存入user中
-        List<Role> roles = rolesMapper.getRolesByUid(user.getId());
-        user.setRoles(roles);
         return user;
     }
 
@@ -57,12 +49,9 @@ public class UserService implements UserDetailsService {
         //插入用户,插入之前先对密码进行加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);//用户可用
+        user.setRole(2); // 默认普通用户
         long result = userMapper.reg(user);
-        //配置用户的角色，默认都是普通用户
-        String[] roles = new String[]{"2"};
-        int i = rolesMapper.addRoles(roles, user.getId());
-        boolean b = i == roles.length && result == 1;
-        if (b) {
+        if (result == 1) {
             return 0;
         } else {
             return 2;
@@ -78,9 +67,7 @@ public class UserService implements UserDetailsService {
         return list;
     }
 
-    public List<Role> getAllRole() {
-        return userMapper.getAllRole();
-    }
+    // 移除getAllRole方法，因为不再使用
 
     public int updateUserEnabled(Boolean enabled, Long uid) {
         return userMapper.updateUserEnabled(enabled, uid);
@@ -90,10 +77,7 @@ public class UserService implements UserDetailsService {
         return userMapper.deleteUserById(uid);
     }
 
-    public int updateUserRoles(Long[] rids, Long id) {
-        int i = userMapper.deleteUserRolesByUid(id);
-        return userMapper.setUserRoles(rids, id);
-    }
+    // 移除updateUserRoles方法，因为不再使用
 
     public User getUserById(Long id) {
         return userMapper.getUserById(id);

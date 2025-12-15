@@ -1,7 +1,6 @@
 package org.sang.controller.admin;
 
 import org.sang.bean.RespBean;
-import org.sang.bean.Role;
 import org.sang.bean.User;
 import org.sang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,7 @@ public class UserManaController {
         return userService.getUserById(id);
     }
 
-    @RequestMapping(value = "/roles", method = RequestMethod.GET)
-    public List<Role> getAllRole() {
-        return userService.getAllRole();
-    }
+
 
     @RequestMapping(value = "/user/enabled", method = RequestMethod.PUT)
     public RespBean updateUserEnabled(Boolean enabled, Long uid) {
@@ -54,12 +50,5 @@ public class UserManaController {
         }
     }
 
-    @RequestMapping(value = "/user/role", method = RequestMethod.PUT)
-    public RespBean updateUserRoles(Long[] rids, Long id) {
-        if (userService.updateUserRoles(rids, id) == rids.length) {
-            return new RespBean("success", "更新成功!");
-        } else {
-            return new RespBean("error", "更新失败!");
-        }
-    }
+
 }

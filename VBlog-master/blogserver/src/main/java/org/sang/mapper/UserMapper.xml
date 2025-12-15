@@ -7,14 +7,14 @@
         SELECT * FROM user WHERE username=#{username}
     </select>
     <insert id="reg" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user set username=#{username},password=#{password},nickname=#{nickname}
+        INSERT INTO user set username=#{username},password=#{password},nickname=#{nickname},email=#{email},userface='https://api.dicebear.com/7.x/adventurer/png?seed=${username}',regTime=CURRENT_TIMESTAMP
     </insert>
     <update id="updateUserEmail">
         UPDATE user set email=#{email} WHERE id=#{id}
     </update>
     <select id="getUserByNickname" resultMap="BaseResultMap">
-        SELECT u.*,r.`id` AS rid,r.`name` AS rname FROM user u,roles r,roles_user ru WHERE u.`id`=ru.`uid` AND
-        r.`id`=ru.`rid` AND u.`id` NOT IN(SELECT u.`id` FROM user u,roles_user ru WHERE u.`id`=ru.`uid` AND ru.`rid`=1)
+        SELECT u.* FROM user u
+        WHERE u.`id` NOT IN(SELECT u.`id` FROM user u WHERE u.`role`=1)
         <choose>
             <when test="nickname!=null and nickname!=''">
                 and u.nickname like concat('%',#{nickname},'%') ORDER BY u.`id`
@@ -25,8 +25,7 @@
         </choose>
     </select>
     <select id="getUserById" resultMap="BaseResultMap">
-        SELECT u.*,r.`id` AS rid,r.`name` AS rname FROM user u,roles r,roles_user ru WHERE u.`id`=ru.`uid` AND
-        r.`id`=ru.`rid` AND u.`id`=#{id}
+        SELECT u.* FROM user u WHERE u.`id`=#{id}
     </select>
     <resultMap id="BaseResultMap" type="org.sang.bean.User">
         <id column="id" property="id"/>
@@ -37,27 +36,14 @@
         <result column="email" property="email"/>
         <result column="userface" property="userface"/>
         <result column="regTime" property="regTime"/>
-        <collection property="roles" ofType="org.sang.bean.Role">
-            <id column="rid" property="id"/>
-            <result column="rname" property="name"/>
-        </collection>
+        <result column="role" property="role"/>
     </resultMap>
-    <select id="getAllRole" resultType="org.sang.bean.Role">
-        select * from roles;
-    </select>
+
     <update id="updateUserEnabled">
         UPDATE user set enabled=#{enabled} WHERE id=#{uid}
     </update>
     <delete id="deleteUserById">
         DELETE FROM user WHERE id=#{id}
     </delete>
-    <delete id="deleteUserRolesByUid">
-        DELETE FROM roles_user WHERE uid=#{id}
-    </delete>
-    <insert id="setUserRoles">
-        INSERT INTO roles_user(rid,uid) VALUES
-        <foreach collection="rids" separator="," item="rid">
-            (#{rid},#{id})
-        </foreach>
-    </insert>
+
 </mapper>
