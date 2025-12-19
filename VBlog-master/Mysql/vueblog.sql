@@ -21,7 +21,7 @@ CREATE TABLE `article` (
   `state` int(11) DEFAULT NULL COMMENT '0表示草稿箱，1表示已发表，2表示已删除',
   `pageView` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of article
@@ -38,12 +38,12 @@ CREATE TABLE `category` (
   `cateName` varchar(64) DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES ('1', '技术分享', '2025-12-01 00:00:00');
+INSERT INTO `category` VALUES ('1', '技术分享', '2025-12-01');
 
 
 -- ----------------------------
@@ -82,7 +82,7 @@ CREATE TABLE `pv` (
   PRIMARY KEY (`id`),
   KEY `pv_ibfk_1` (`uid`),
   CONSTRAINT `pv_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pv
@@ -115,7 +115,7 @@ CREATE TABLE `user` (
   `regTime` datetime DEFAULT NULL,
   `role` int(11) DEFAULT '2' COMMENT '1=超级管理员,2=普通用户',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
