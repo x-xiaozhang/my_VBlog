@@ -69,6 +69,10 @@
         SELECT a.* FROM article a WHERE a.id=#{id}
     </select>
 
+    <update id="pvIncrement" parameterType="Long">
+        UPDATE article SET pageView = pageView + 1 WHERE id = #{id}
+    </update>
+
     <insert id="pvStatisticsPerDay">
         INSERT INTO pv(countDate,pv,username) SELECT CURRENT_DATE(),SUM(pageView),u.username FROM article a JOIN user u ON a.nickname = u.nickname GROUP BY u.username
     </insert>
