@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="vueblog@localhost" uuid="c2ad3e94-15f8-4690-8bca-03f100b6afda">
+    <data-source source="LOCAL" name="vueblog@localhost" uuid="da4ddd91-b437-4e56-96cc-fc30a15cea89">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

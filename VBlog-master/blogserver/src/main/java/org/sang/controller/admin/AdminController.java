@@ -27,7 +27,7 @@ public class AdminController {
         List<Article> articles = articleService.getArticleByState(-2, page, count, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("articles", articles);
-        map.put("totalCount", articleService.getArticleCountByState(1, null, keywords));
+        map.put("totalCount", articleService.getArticleCountByState(1, keywords));
         return map;
     }
 
