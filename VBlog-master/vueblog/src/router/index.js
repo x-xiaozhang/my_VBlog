@@ -35,6 +35,7 @@ export default new Router({
           path: '/homeContent',
           name: '首页内容',
           component: HomeContent,
+          iconCls: 'fa fa-dashboard',
           meta: { 
             keepAlive: true 
           }
