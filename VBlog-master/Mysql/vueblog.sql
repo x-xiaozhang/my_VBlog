@@ -121,4 +121,5 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES('1', 'admin', '超级管理员', '202cb962ac59075b964b07152d234b70', '1', '3059697831@qq.com', 'https://api.dicebear.com/7.x/adventurer/png?seed=admin', '2025-12-01 00:00:00',1);
+INSERT INTO `user` VALUES('2', 'user', '普通用户', '202cb962ac59075b964b07152d234b70', '1', '3059697831@qq.com', 'https://api.dicebear.com/7.x/adventurer/png?seed=user', '2025-12-01 00:00:00',2);
 SET FOREIGN_KEY_CHECKS=1;
