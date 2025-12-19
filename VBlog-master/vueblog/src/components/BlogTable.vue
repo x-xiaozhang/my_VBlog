@@ -179,7 +179,54 @@
         this.selItems = val;
       },
       handleEdit(index, row) {
-        this.$router.push({path: '/editBlog', query: {from: this.activeName,id:row.id}});
+        var _this = this;
+        // 获取当前用户昵称
+        getRequest("/currentUserName").then(resp=> {
+          if (resp.status == 200) {
+            var currentNickname = resp.data;
+            // 检查当前用户是否是文章作者
+            if (currentNickname != row.nickname) {
+              // 不是作者，检查是否是管理员
+              getRequest("/isAdmin").then(resp=> {
+                if (resp.status == 200) {
+                  var isAdmin = resp.data;
+                  if (!isAdmin) {
+                    _this.$message({type: 'error', message: '没有权限操作该文章!'});
+                    return;
+                  } else {
+                    // 是管理员，显示确认提示后编辑
+                    _this.$confirm('确定要编辑这篇文章吗?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'warning'
+                    }).then(() => {
+                      _this.$router.push({path: '/editBlog', query: {from: _this.activeName,id:row.id}});
+                    }).catch(() => {
+                      _this.$message({
+                        type: 'info',
+                        message: '已取消编辑'
+                      });
+                    });
+                  }
+                }
+              });
+            } else {
+              // 是作者，显示确认提示后编辑
+              _this.$confirm('确定要编辑这篇文章吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                _this.$router.push({path: '/editBlog', query: {from: _this.activeName,id:row.id}});
+              }).catch(() => {
+                _this.$message({
+                  type: 'info',
+                  message: '已取消编辑'
+                });
+              });
+            }
+          }
+        });
       },
       handleDelete(index, row) {
         this.dustbinData.push(row.id);
