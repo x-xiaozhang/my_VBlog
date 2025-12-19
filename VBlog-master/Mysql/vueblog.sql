@@ -52,17 +52,15 @@ INSERT INTO `category` VALUES ('1', '技术分享', '2025-12-01');
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `aid` int(11) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
   `content` text,
   `publishDate` datetime DEFAULT NULL,
   `parentId` int(11) DEFAULT NULL COMMENT '-1表示正常回复，其他值表示是评论的回复',
-  `uid` int(11) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `aid` (`aid`),
-  KEY `uid` (`uid`),
+  KEY `title` (`title`),
+  KEY `username` (`username`),
   KEY `parentId` (`parentId`),
-  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`aid`) REFERENCES `article` (`id`),
-  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`uid`) REFERENCES `user` (`id`),
   CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`parentId`) REFERENCES `comments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -78,23 +76,19 @@ CREATE TABLE `pv` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `countDate` date DEFAULT NULL,
   `pv` int(11) DEFAULT NULL,
-  `uid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `pv_ibfk_1` (`uid`),
-  CONSTRAINT `pv_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  `username` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of pv
 -- ----------------------------
-INSERT INTO `pv` VALUES ('1', '2017-12-24', '20', '6');
-INSERT INTO `pv` VALUES ('2', '2017-12-24', '14', '7');
-INSERT INTO `pv` VALUES ('4', '2017-12-25', '40', '6');
-INSERT INTO `pv` VALUES ('5', '2017-12-25', '23', '7');
-INSERT INTO `pv` VALUES ('6', '2017-12-26', '11', '6');
-INSERT INTO `pv` VALUES ('7', '2017-12-26', '32', '7');
-INSERT INTO `pv` VALUES ('26', '2017-12-23', '2', '6');
-INSERT INTO `pv` VALUES ('27', '2017-12-23', '77', '7');
+INSERT INTO `pv` VALUES ('1', '2025-12-01', '20', 'admin');
+INSERT INTO `pv` VALUES ('2', '2025-12-01', '14', 'user');
+INSERT INTO `pv` VALUES ('3', '2025-12-02', '40', 'admin');
+INSERT INTO `pv` VALUES ('4', '2025-12-02', '23', 'user');
+INSERT INTO `pv` VALUES ('5', '2025-12-03', '11', 'admin');
+INSERT INTO `pv` VALUES ('6', '2025-12-03', '32', 'user');
 
 -- 注意：roles和roles_user表已被删除，用户角色直接存储在user表的role字段中
 
@@ -106,7 +100,7 @@ INSERT INTO `pv` VALUES ('27', '2017-12-23', '77', '7');
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) DEFAULT NULL,
+  `username` varchar(64) NOT NULL,
   `nickname` varchar(64) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT '1',
@@ -114,7 +108,7 @@ CREATE TABLE `user` (
   `userface` varchar(255) DEFAULT NULL,
   `regTime` datetime DEFAULT NULL,
   `role` int(11) DEFAULT '2' COMMENT '1=超级管理员,2=普通用户',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`, `username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

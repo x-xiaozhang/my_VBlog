@@ -107,7 +107,7 @@
     },
     methods: {
       viewArticle(id) {
-        this.$router.push({ path: '/blogDetail', query: { aid: id } })
+        this.$router.push({ path: '/blogDetail', query: { id: id } })
       },
       loadUserCount() {
         var _this = this

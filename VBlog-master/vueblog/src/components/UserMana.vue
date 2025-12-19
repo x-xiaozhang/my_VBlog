@@ -97,7 +97,7 @@
       enabledChange(enabled, id, index){
         var _this = this;
         _this.cardloading.splice(index, 1, true)
-        putRequest("/admin/user/enabled", {enabled: enabled, uid: id}).then(resp=> {
+        putRequest("/admin/user/enabled", {enabled: enabled, id: id}).then(resp=> {
           if (resp.status != 200) {
             _this.$message({type: 'error', message: '更新失败!'})
             _this.loadOneUserById(id, index);

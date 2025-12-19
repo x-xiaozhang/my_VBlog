@@ -1,33 +1,16 @@
 <template>
   <el-container v-loading="loading" class="post-article">
     <el-header class="header">
-      <el-select v-model="article.cid" placeholder="请选择文章栏目" style="width: 150px;">
+      <el-select v-model="article.cateName" placeholder="请选择文章栏目" style="width: 150px;">
         <el-option
           v-for="item in categories"
           :key="item.id"
           :label="item.cateName"
-          :value="item.id">
+          :value="item.cateName">
         </el-option>
       </el-select>
       <el-input v-model="article.title" placeholder="请输入标题..." style="width: 400px;margin-left: 10px"></el-input>
-      <el-tag
-        :key="tag"
-        v-for="tag in article.dynamicTags"
-        closable
-        :disable-transitions="false"
-        @close="handleClose(tag)" style="margin-left: 10px">
-        {{tag}}
-      </el-tag>
-      <el-input
-        class="input-new-tag"
-        v-if="tagInputVisible"
-        v-model="tagValue"
-        ref="saveTagInput"
-        size="small"
-        @keyup.enter.native="handleInputConfirm"
-        @blur="handleInputConfirm">
-      </el-input>
-      <el-button v-else class="button-new-tag" type="primary" size="small" @click="showInput">+Tag</el-button>
+
     </el-header>
     <el-main class="main">
       <div id="editor">
@@ -73,17 +56,12 @@
           _this.loading = false;
           if (resp.status == 200) {
             _this.article = resp.data;
-            var tags = resp.data.tags;
-            _this.article.dynamicTags = []
-            for (var i = 0; i < tags.length; i++) {
-              _this.article.dynamicTags.push(tags[i].tagName)
-            }
           } else {
-            _this.$message({type: 'error', message: '页面加载失败!'})
+            _this.$message({type: 'error', message: '1页面加载失败!'})
           }
         }, resp=> {
           _this.loading = false;
-          _this.$message({type: 'error', message: '页面加载失败!'})
+          _this.$message({type: 'error', message: '2页面加载失败!'})
         })
       }
     },
@@ -95,7 +73,7 @@
         this.$router.go(-1)
       },
       saveBlog(state){
-        if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.cid))) {
+        if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.cateName))) {
           this.$message({type: 'error', message: '数据不能为空!'});
           return;
         }
@@ -106,9 +84,8 @@
           title: _this.article.title,
           mdContent: _this.article.mdContent,
           htmlContent: _this.$refs.md.d_render,
-          cid: _this.article.cid,
-          state: state,
-          dynamicTags: _this.article.dynamicTags
+          cateName: _this.article.cateName,
+          state: state
         }).then(resp=> {
           _this.loading = false;
           if (resp.status == 200 && resp.data.status == 'success') {
@@ -150,39 +127,20 @@
           _this.categories = resp.data;
         });
       },
-      handleClose(tag) {
-        this.article.dynamicTags.splice(this.article.dynamicTags.indexOf(tag), 1);
-      },
-      showInput() {
-        this.tagInputVisible = true;
-        this.$nextTick(_ => {
-          this.$refs.saveTagInput.$refs.input.focus();
-        });
-      },
-      handleInputConfirm() {
-        let tagValue = this.tagValue;
-        if (tagValue) {
-          this.article.dynamicTags.push(tagValue);
-        }
-        this.tagInputVisible = false;
-        this.tagValue = '';
-      }
+
     },
     data() {
       return {
-        categories: [],
-        tagInputVisible: false,
-        tagValue: '',
-        loading: false,
-        from: '',
-        article: {
-          id: '-1',
-          dynamicTags: [],
-          title: '',
-          mdContent: '',
-          cid: ''
+          categories: [],
+          loading: false,
+          from: '',
+          article: {
+            id: -1,
+            title: '',
+            mdContent: '',
+            cateName: ''
+          }
         }
-      }
     }
   }
 </script>
@@ -210,23 +168,7 @@
     padding-top: 0px;
   }
 
-  .post-article > .header > .el-tag + .el-tag {
-    margin-left: 10px;
-  }
 
-  .post-article > .header > .button-new-tag {
-    margin-left: 10px;
-    height: 32px;
-    line-height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .post-article > .header > .input-new-tag {
-    width: 90px;
-    margin-left: 10px;
-    vertical-align: bottom;
-  }
 
   .post-article {
   }

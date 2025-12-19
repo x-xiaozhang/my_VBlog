@@ -69,12 +69,12 @@ public class UserService implements UserDetailsService {
 
     // 移除getAllRole方法，因为不再使用
 
-    public int updateUserEnabled(Boolean enabled, Long uid) {
-        return userMapper.updateUserEnabled(enabled, uid);
+    public int updateUserEnabled(Boolean enabled, Long id) {
+        return userMapper.updateUserEnabled(enabled, id);
     }
 
-    public int deleteUserById(Long uid) {
-        return userMapper.deleteUserById(uid);
+    public int deleteUserById(Long id) {
+        return userMapper.deleteUserById(id);
     }
 
     // 移除updateUserRoles方法，因为不再使用

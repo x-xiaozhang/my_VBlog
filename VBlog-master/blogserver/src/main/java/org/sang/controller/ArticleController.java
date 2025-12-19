@@ -80,14 +80,14 @@ public class ArticleController {
         return map;
     }
 
-    @RequestMapping(value = "/{aid}", method = RequestMethod.GET)
-    public Article getArticleById(@PathVariable Long aid) {
-        return articleService.getArticleById(aid);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Article getArticleById(@PathVariable Long id) {
+        return articleService.getArticleById(id);
     }
 
     @RequestMapping(value = "/dustbin", method = RequestMethod.PUT)
-    public RespBean updateArticleState(Long[] aids, Integer state) {
-        if (articleService.updateArticleState(aids, state) == aids.length) {
+    public RespBean updateArticleState(Long[] ids, Integer state) {
+        if (articleService.updateArticleState(ids, state) == ids.length) {
             return new RespBean("success", "删除成功!");
         }
         return new RespBean("error", "删除失败!");

@@ -29,7 +29,7 @@
     </select>
     <resultMap id="BaseResultMap" type="org.sang.bean.User">
         <id column="id" property="id"/>
-        <result column="username" property="username"/>
+        <id column="username" property="username"/>
         <result column="nickname" property="nickname"/>
         <result column="password" property="password"/>
         <result column="enabled" property="enabled"/>
@@ -40,7 +40,7 @@
     </resultMap>
 
     <update id="updateUserEnabled">
-        UPDATE user set enabled=#{enabled} WHERE id=#{uid}
+        UPDATE user set enabled=#{enabled} WHERE id=#{id}
     </update>
     <delete id="deleteUserById">
         DELETE FROM user WHERE id=#{id}
