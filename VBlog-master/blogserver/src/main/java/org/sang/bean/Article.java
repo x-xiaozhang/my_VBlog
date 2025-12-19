@@ -1,7 +1,7 @@
 package org.sang.bean;
 
 import java.sql.Timestamp;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Created by sang on 2017/12/20.
@@ -12,16 +12,13 @@ public class Article {
     private String mdContent;
     private String htmlContent;
     private String summary;
-    private Long cid;
-    private Long uid;
+    private String cateName;
+    private String nickname;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Timestamp publishDate;
     private Integer state;
     private Integer pageView;
     private Timestamp editTime;
-    private String[] dynamicTags;
-    private String nickname;
-    private String cateName;
-    private List<Tags> tags;
     private String stateStr;
 
     public String getStateStr() {
@@ -32,22 +29,6 @@ public class Article {
         this.stateStr = stateStr;
     }
 
-    public List<Tags> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tags> tags) {
-        this.tags = tags;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public String getCateName() {
         return cateName;
     }
@@ -56,12 +37,12 @@ public class Article {
         this.cateName = cateName;
     }
 
-    public String[] getDynamicTags() {
-        return dynamicTags;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setDynamicTags(String[] dynamicTags) {
-        this.dynamicTags = dynamicTags;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public Timestamp getEditTime() {
@@ -112,21 +93,7 @@ public class Article {
         this.summary = summary;
     }
 
-    public Long getCid() {
-        return cid;
-    }
 
-    public void setCid(Long cid) {
-        this.cid = cid;
-    }
-
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
-    }
 
     public Timestamp getPublishDate() {
         return publishDate;

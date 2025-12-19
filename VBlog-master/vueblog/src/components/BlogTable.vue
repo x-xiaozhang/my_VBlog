@@ -24,7 +24,7 @@
       ref="multipleTable"
       :data="articles"
       tooltip-effect="dark"
-      style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
+      style="width: 100%;overflow-x: auto; overflow-y: hidden;"
       max-height="390"
       @selection-change="handleSelectionChange" v-loading="loading">
       <el-table-column
@@ -33,12 +33,12 @@
       </el-table-column>
       <el-table-column
         label="标题"
-        width="400" align="left">
+        width="300" align="left">
         <template slot-scope="scope"><span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">{{ scope.row.title}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="最近编辑时间" width="140" align="left">
+        label="最近编辑时间" width="200" align="left">
         <template slot-scope="scope">{{ scope.row.editTime | formatDateTime}}</template>
       </el-table-column>
       <el-table-column
@@ -48,7 +48,7 @@
       </el-table-column>
       <el-table-column
         prop="cateName"
-        label="所属分类"
+        label="所属栏目"
         width="120" align="left">
       </el-table-column>
       <el-table-column label="操作" align="left" v-if="showEdit || showDelete">

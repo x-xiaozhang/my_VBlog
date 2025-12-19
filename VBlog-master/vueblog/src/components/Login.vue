@@ -1,7 +1,6 @@
 <template>
   <el-form :rules="currentRules" class="login-container" label-position="left"
            label-width="0px" v-loading="loading">
-    <!-- 修改为图片路径 -->
     <div class="login_logo">
       <img src="../assets/logo.jpg" alt="VBlog系统logo" class="logo-img">
     </div>
@@ -42,7 +41,6 @@
 </template>
 <script>
 import {postRequest} from '../utils/api'
-import {putRequest} from '../utils/api'
 export default{
   data(){
     return {
@@ -59,7 +57,7 @@ export default{
       },
       checked: true,
       loginForm: {
-        username: 'sang',
+        username: 'admin',
         password: '123'
       },
       registerForm: {
@@ -145,11 +143,11 @@ export default{
   height: 80px;
 }
 
-/* 控制图片显示样式 */
+
 .logo-img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 保持图片比例，完整显示在容器内 */
+  object-fit: contain;
 }
 
 .login_title {

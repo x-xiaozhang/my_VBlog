@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
+import HomeContent from '@/components/HomeContent'
 import ArticleList from '@/components/ArticleList'
 import CateMana from '@/components/CateMana'
 import DataCharts from '@/components/DataCharts'
@@ -22,8 +23,24 @@ export default new Router({
       path: '/home',
       name: '',
       component: Home,
-      hidden: true
-    }, {
+      hidden: true,
+      redirect: '/homeContent'  // 设置默认重定向到首页内容
+    }, { 
+      path: '/home',
+      component: Home,
+      name: '首页',
+      iconCls: 'fa fa-home',
+      children: [
+        {
+          path: '/homeContent',
+          name: '首页内容',
+          component: HomeContent,
+          meta: { 
+            keepAlive: true 
+          }
+        }
+      ]
+    }, { 
       path: '/home',
       component: Home,
       name: '文章管理',
