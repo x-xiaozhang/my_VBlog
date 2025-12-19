@@ -33,6 +33,8 @@ public class ArticleController {
         int result = articleService.addNewArticle(article);
         if (result == 1) {
             return new RespBean("success", article.getId() + "");
+        } else if (result == -1) {
+            return new RespBean("error", "没有权限编辑该文章!");
         } else {
             return new RespBean("error", article.getState() == 0 ? "文章保存失败!" : "文章发表失败!");
         }
@@ -87,24 +89,33 @@ public class ArticleController {
 
     @RequestMapping(value = "/dustbin", method = RequestMethod.PUT)
     public RespBean updateArticleState(Integer[] ids, Integer state) {
-        if (articleService.updateArticleState(ids, state) == ids.length) {
+        int result = articleService.updateArticleState(ids, state);
+        if (result == ids.length) {
             return new RespBean("success", "删除成功!");
+        } else if (result == -1) {
+            return new RespBean("error", "没有权限操作该文章!");
         }
         return new RespBean("error", "删除失败!");
     }
 
     @RequestMapping(value = "/restore", method = RequestMethod.PUT)
     public RespBean restoreArticle(Integer articleId) {
-        if (articleService.restoreArticle(articleId) == 1) {
+        int result = articleService.restoreArticle(articleId);
+        if (result == 1) {
             return new RespBean("success", "还原成功!");
+        } else if (result == -1) {
+            return new RespBean("error", "没有权限操作该文章!");
         }
         return new RespBean("error", "还原失败!");
     }
     
     @RequestMapping(value = "/restore/batch", method = RequestMethod.PUT)
     public RespBean restoreArticles(Integer[] ids) {
-        if (articleService.restoreArticles(ids) == ids.length) {
+        int result = articleService.restoreArticles(ids);
+        if (result == ids.length) {
             return new RespBean("success", "批量还原成功!");
+        } else if (result == -1) {
+            return new RespBean("error", "没有权限操作该文章!");
         }
         return new RespBean("error", "批量还原失败!");
     }
