@@ -38,4 +38,14 @@ public class AdminController {
         }
         return new RespBean("error", "删除失败!");
     }
+
+    @RequestMapping(value = "/article/count", method = RequestMethod.GET)
+    public int getArticleCount() {
+        return articleService.getArticleCountByState(1, null); // 获取已发布文章的数量
+    }
+
+    @RequestMapping(value = "/pv/total", method = RequestMethod.GET)
+    public int getTotalPV() {
+        return articleService.getTotalPV(); // 获取总访问量
+    }
 }

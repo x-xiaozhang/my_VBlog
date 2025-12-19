@@ -50,5 +50,9 @@ public class UserManaController {
         }
     }
 
+    @RequestMapping(value = "/user/count", method = RequestMethod.GET)
+    public int getUserCount() {
+        return userService.getUserCount();
+    }
 
 }

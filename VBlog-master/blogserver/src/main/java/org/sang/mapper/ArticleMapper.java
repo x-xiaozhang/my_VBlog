@@ -37,4 +37,6 @@ public interface ArticleMapper {
     List<String> getCategories();
 
     List<Integer> getDataStatistics();
+
+    int getTotalPV();
 }

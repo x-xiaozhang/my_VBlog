@@ -57,4 +57,9 @@ public class CategoryController {
         }
         return new RespBean("error", "修改失败!");
     }
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public int getCategoryCount() {
+        return categoryService.getCategoryCount();
+    }
 }

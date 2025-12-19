@@ -25,4 +25,6 @@ public interface UserMapper {
     int deleteUserById(Long uid);
 
     User getUserById(@Param("id") Long id);
+    
+    int getUserCount();
 }
