@@ -2,7 +2,6 @@
   <div class="home-content">
     <div class="welcome-section">
       <h2>欢迎来到V部落博客管理平台</h2>
-      <p>这里是您的博客管理中心，您可以在这里发布文章、管理用户、查看数据统计等</p>
     </div>
     
     <div class="stats-section">

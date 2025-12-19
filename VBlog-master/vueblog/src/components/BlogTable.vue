@@ -70,9 +70,14 @@
       </el-table-column>
     </el-table>
     <div class="blog_table_footer">
-      <el-button type="danger" size="mini" style="margin: 0px;" v-show="this.articles.length>0 && showDelete"
+      <div style="display: flex; gap: 10px;">
+        <el-button type="danger" size="mini" style="margin: 0px;" v-show="this.articles.length>0 && showDelete"
                  :disabled="this.selItems.length==0" @click="deleteMany">批量删除
-      </el-button>
+        </el-button>
+        <el-button type="primary" size="mini" style="margin: 0px;" v-show="this.articles.length>0 && showRestore"
+                 :disabled="this.selItems.length==0" @click="restoreMany">批量还原
+        </el-button>
+      </div>
       <span></span>
       <el-pagination
         background
@@ -126,6 +131,14 @@
           this.dustbinData.push(selItems[i].id)
         }
         this.deleteToDustBin(selItems[0].state)
+      },
+      restoreMany(){
+        var selItems = this.selItems;
+        var ids = [];
+        for (var i = 0; i < selItems.length; i++) {
+          ids.push(selItems[i].id)
+        }
+        this.restoreArticles(ids)
       },
       //翻页
       currentChange(currentPage){
@@ -196,6 +209,33 @@
           _this.$message({
             type: 'info',
             message: '已取消还原'
+          });
+        });
+      },
+      restoreArticles(ids) {
+        let _this = this;
+        this.$confirm('将选中的文件还原到原处，是否继续？','提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        } ).then(() => {
+          _this.loading = true;
+          putRequest('/article/restore/batch', {ids: ids}).then(resp=> {
+            if (resp.status == 200) {
+              var data = resp.data;
+              _this.$message({type: data.status, message: data.msg});
+              if (data.status == 'success') {
+                window.bus.$emit('blogTableReload')//通过选项卡都重新加载数据
+              }
+            } else {
+              _this.$message({type: 'error', message: '批量还原失败!'});
+            }
+            _this.loading = false;
+          });
+        }).catch(() => {
+          _this.$message({
+            type: 'info',
+            message: '已取消批量还原'
           });
         });
       },

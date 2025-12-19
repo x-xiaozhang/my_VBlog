@@ -1,6 +1,5 @@
-/*
-CREATE DATABASE `vueblog` DEFAULT CHARACTER SET utf8;
- */
+drop database vueblog;CREATE DATABASE `vueblog` DEFAULT CHARACTER SET utf8;
+
 USE `vueblog`;
 SET FOREIGN_KEY_CHECKS=0;
 

@@ -32,7 +32,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/article/dustbin", method = RequestMethod.PUT)
-    public RespBean updateArticleState(Long[] ids, Integer state) {
+    public RespBean updateArticleState(Integer[] ids, Integer state) {
         if (articleService.updateArticleState(ids, state) == ids.length) {
             return new RespBean("success", "删除成功!");
         }
