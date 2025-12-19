@@ -60,7 +60,7 @@
           </el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="warning" icon="el-icon-user" size="large" block @click="$router.push('/user')">
+          <el-button type="warning" icon="fa fa-user" size="large" block @click="$router.push('/user')">
             用户管理
           </el-button>
         </el-col>
