@@ -9,6 +9,7 @@ import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
+import AIAssistant from '@/components/AIAssistant'
 
 Vue.use(Router)
 
@@ -114,6 +115,22 @@ export default new Router({
           iconCls: 'fa fa-bar-chart',
           name: '数据统计',
           component: DataCharts
+        }
+      ]
+    }, {
+      path: '/home',
+      component: Home,
+      name: 'AI助手',
+      iconCls: 'fa fa-robot',
+      children: [
+        {
+          path: '/aiAssistant',
+          iconCls: 'fa fa-robot',
+          name: 'AI助手',
+          component: AIAssistant,
+          meta: {
+            keepAlive: false
+          }
         }
       ]
     }
