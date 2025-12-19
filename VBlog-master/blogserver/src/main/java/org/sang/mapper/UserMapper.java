@@ -20,9 +20,9 @@ public interface UserMapper {
 
     List<User> getUserByNickname(@Param("nickname") String nickname);
 
-    int updateUserEnabled(@Param("enabled") Boolean enabled, @Param("uid") Long uid);
+    int updateUserEnabled(@Param("enabled") Boolean enabled, @Param("id") Long id);
 
-    int deleteUserById(Long uid);
+    int deleteUserById(Long id);
 
     User getUserById(@Param("id") Long id);
     

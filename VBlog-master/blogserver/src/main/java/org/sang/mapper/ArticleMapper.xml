@@ -52,8 +52,8 @@
     </select>
     <update id="updateArticleState">
         UPDATE article SET state=#{state} WHERE id IN
-        <foreach collection="aids" item="aid" separator="," open="(" close=")">
-            #{aid}
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
         </foreach>
     </update>
     <update id="updateArticleStateById" >
@@ -61,16 +61,16 @@
     </update>
     <delete id="deleteArticleById">
         DELETE FROM article WHERE id IN
-        <foreach collection="aids" item="aid" open="(" close=")" separator=",">
-            #{aid}
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
         </foreach>
     </delete>
     <select id="getArticleById" parameterType="Long" resultType="org.sang.bean.Article">
-        SELECT a.* FROM article a WHERE a.id=#{aid}
+        SELECT a.* FROM article a WHERE a.id=#{id}
     </select>
 
     <insert id="pvStatisticsPerDay">
-        INSERT INTO pv(countDate,pv,uid) SELECT CURRENT_DATE(),totalPv-pv,t.`uid` FROM pvview p,totalpvview t WHERE p.`uid`=t.`uid`
+        INSERT INTO pv(countDate,pv,username) SELECT CURRENT_DATE(),SUM(pageView),u.username FROM article a JOIN user u ON a.nickname = u.nickname GROUP BY u.username
     </insert>
 
     <select id="getCategories" resultType="String">

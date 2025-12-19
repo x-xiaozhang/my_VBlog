@@ -33,11 +33,11 @@
       }
     },
     mounted: function () {
-      var aid = this.$route.query.aid;
+      var id = this.$route.query.id;
       this.activeName = this.$route.query.an
       var _this = this;
       this.loading = true;
-      getRequest("/article/" + aid).then(resp=> {
+      getRequest("/article/" + id).then(resp=> {
         if (resp.status == 200) {
           _this.article = resp.data;
         }

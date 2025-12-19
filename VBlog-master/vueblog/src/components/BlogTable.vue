@@ -118,7 +118,7 @@
         this.loadBlogs(1, this.pageSize);
       },
       itemClick(row){
-        this.$router.push({path: '/blogDetail', query: {aid: row.id}})
+        this.$router.push({path: '/blogDetail', query: {id: row.id}})
       },
       deleteMany(){
         var selItems = this.selItems;
@@ -213,7 +213,7 @@
           } else {
             url = "/article/dustbin";
           }
-          putRequest(url, {aids: _this.dustbinData, state: state}).then(resp=> {
+          putRequest(url, {ids: _this.dustbinData, state: state}).then(resp=> {
             if (resp.status == 200) {
               var data = resp.data;
               _this.$message({type: data.status, message: data.msg});

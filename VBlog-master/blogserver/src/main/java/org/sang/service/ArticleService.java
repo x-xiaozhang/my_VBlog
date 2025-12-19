@@ -75,11 +75,11 @@ public class ArticleService {
         return articleMapper.getArticleCountByState(state, keywords);
     }
 
-    public int updateArticleState(Long[] aids, Integer state) {
+    public int updateArticleState(Long[] ids, Integer state) {
         if (state == 2) {
-            return articleMapper.deleteArticleById(aids);
+            return articleMapper.deleteArticleById(ids);
         } else {
-            return articleMapper.updateArticleState(aids, 2);//放入到回收站中
+            return articleMapper.updateArticleState(ids, 2);//放入到回收站中
         }
     }
 
@@ -87,9 +87,9 @@ public class ArticleService {
         return articleMapper.updateArticleStateById(articleId, 1); // 从回收站还原在原处
     }
 
-    public Article getArticleById(Long aid) {
-        Article article = articleMapper.getArticleById(aid);
-        articleMapper.pvIncrement(aid);
+    public Article getArticleById(Long id) {
+        Article article = articleMapper.getArticleById(id);
+        articleMapper.pvIncrement(id);
         return article;
     }
 

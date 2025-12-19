@@ -33,17 +33,17 @@ public class UserManaController {
 
 
     @RequestMapping(value = "/user/enabled", method = RequestMethod.PUT)
-    public RespBean updateUserEnabled(Boolean enabled, Long uid) {
-        if (userService.updateUserEnabled(enabled, uid) == 1) {
+    public RespBean updateUserEnabled(Boolean enabled, Long id) {
+        if (userService.updateUserEnabled(enabled, id) == 1) {
             return new RespBean("success", "更新成功!");
         } else {
             return new RespBean("error", "更新失败!");
         }
     }
 
-    @RequestMapping(value = "/user/{uid}", method = RequestMethod.DELETE)
-    public RespBean deleteUserById(@PathVariable Long uid) {
-        if (userService.deleteUserById(uid) == 1) {
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    public RespBean deleteUserById(@PathVariable Long id) {
+        if (userService.deleteUserById(id) == 1) {
             return new RespBean("success", "删除成功!");
         } else {
             return new RespBean("error", "删除失败!");

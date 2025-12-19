@@ -21,17 +21,17 @@ public interface ArticleMapper {
 
     int getArticleCountByState(@Param("state") Integer state, @Param("keywords") String keywords);
 
-    int updateArticleState(@Param("aids") Long aids[], @Param("state") Integer state);
+    int updateArticleState(@Param("ids") Long ids[], @Param("state") Integer state);
 
     int updateArticleStateById(@Param("articleId") Integer articleId, @Param("state") Integer state);
 
-    int deleteArticleById(@Param("aids") Long[] aids);
+    int deleteArticleById(@Param("ids") Long[] ids);
 
-    Article getArticleById(Long aid);
+    Article getArticleById(Long id);
 
-    void pvIncrement(Long aid);
+    void pvIncrement(Long id);
 
-    //INSERT INTO pv(countDate,pv,uid) SELECT NOW(),SUM(pageView),uid FROM article GROUP BY uid
+    //INSERT INTO pv(countDate,pv,username) SELECT NOW(),SUM(pageView),username FROM article JOIN user ON article.nickname = user.nickname GROUP BY username
     void pvStatisticsPerDay();
 
     List<String> getCategories();
