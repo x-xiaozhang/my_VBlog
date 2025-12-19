@@ -1,6 +1,7 @@
 package org.sang.service;
 
 import org.sang.bean.Article;
+import org.sang.bean.User;
 import org.sang.mapper.ArticleMapper;
 import org.sang.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,23 @@ public class ArticleService {
             int i = articleMapper.addNewArticle(article);
             return i;
         } else {
+            //更新操作，检查权限
+            User currentUser = Util.getCurrentUser();
+            //如果不是管理员，检查是否是文章作者
+            if (currentUser.getRole() != 1) {
+                Article oldArticle = articleMapper.getArticleById(article.getId());
+                if (oldArticle == null || !currentUser.getNickname().equals(oldArticle.getNickname())) {
+                    return -1; //权限不足
+                }
+            }
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             if (article.getState() == 1) {
                 //设置发表日期
                 article.setPublishDate(timestamp);
             }
-            //更新
+            //更新，保持原作者信息不变
             article.setEditTime(new Timestamp(System.currentTimeMillis()));
+            //不更新nickname，保持原作者
             int i = articleMapper.updateArticle(article);
             return i;
         }
@@ -76,6 +87,16 @@ public class ArticleService {
     }
 
     public int updateArticleState(Integer[] ids, Integer state) {
+        User currentUser = Util.getCurrentUser();
+        //如果不是管理员，检查是否是文章作者
+        if (currentUser.getRole() != 1) {
+            for (Integer id : ids) {
+                Article article = articleMapper.getArticleById(id);
+                if (article == null || !currentUser.getNickname().equals(article.getNickname())) {
+                    return -1; //权限不足
+                }
+            }
+        }
         if (state == 2) {
             return articleMapper.deleteArticleById(ids);
         } else {
@@ -84,10 +105,28 @@ public class ArticleService {
     }
 
     public int restoreArticle(Integer articleId) {
+        User currentUser = Util.getCurrentUser();
+        //如果不是管理员，检查是否是文章作者
+        if (currentUser.getRole() != 1) {
+            Article article = articleMapper.getArticleById(articleId);
+            if (article == null || !currentUser.getNickname().equals(article.getNickname())) {
+                return -1; //权限不足
+            }
+        }
         return articleMapper.updateArticleStateById(articleId, 1); // 从回收站还原在原处
     }
     
     public int restoreArticles(Integer[] ids) {
+        User currentUser = Util.getCurrentUser();
+        //如果不是管理员，检查是否是文章作者
+        if (currentUser.getRole() != 1) {
+            for (Integer id : ids) {
+                Article article = articleMapper.getArticleById(id);
+                if (article == null || !currentUser.getNickname().equals(article.getNickname())) {
+                    return -1; //权限不足
+                }
+            }
+        }
         return articleMapper.updateArticleStateByIds(ids, 1); // 批量从回收站还原文章
     }
 

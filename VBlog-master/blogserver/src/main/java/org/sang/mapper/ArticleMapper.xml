@@ -8,7 +8,7 @@
     </insert>
     <update id="updateArticle" parameterType="org.sang.bean.Article">
         UPDATE article SET
-        title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cateName=#{cateName},nickname=#{nickname},editTime=#{editTime}
+        title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cateName=#{cateName},editTime=#{editTime}
         <if test="state==1">
             ,state=1
         </if>
