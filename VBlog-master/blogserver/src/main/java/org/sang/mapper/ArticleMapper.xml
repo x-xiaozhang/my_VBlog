@@ -71,11 +71,11 @@
             #{id}
         </foreach>
     </delete>
-    <select id="getArticleById" parameterType="Long" resultType="org.sang.bean.Article">
+    <select id="getArticleById" parameterType="Integer" resultType="org.sang.bean.Article">
         SELECT a.* FROM article a WHERE a.id=#{id}
     </select>
 
-    <update id="pvIncrement" parameterType="Long">
+    <update id="pvIncrement" parameterType="Integer">
         UPDATE article SET pageView = pageView + 1 WHERE id = #{id}
     </update>
 
