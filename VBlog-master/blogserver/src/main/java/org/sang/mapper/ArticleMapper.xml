@@ -19,23 +19,17 @@
     </update>
     <select id="getArticleByState" resultType="org.sang.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,a.`cateName`,a.`nickname` FROM article a
-        <if test="state!=-1 and state!=-2">
-            WHERE a.state=#{state}
-        </if>
-        <if test="state==-2">
-            WHERE a.state=1
-        </if>
-        <if test="keywords!=null">
-            <where>
-                <if test="state!=-1 and state!=-2">
-                    and a.state=#{state}
-                </if>
-                <if test="state==-2">
-                    and a.state=1
-                </if>
+        <where>
+            <if test="state!=-1 and state!=-2">
+                a.state=#{state}
+            </if>
+            <if test="state==-2">
+                a.state=1
+            </if>
+            <if test="keywords!=null">
                 AND title LIKE concat('%',#{keywords},'%')
-            </where>
-        </if>
+            </if>
+        </where>
         ORDER BY a.editTime DESC limit #{start},#{count};
     </select>
     <select id="getArticleByStateByAdmin" resultType="org.sang.bean.Article">
