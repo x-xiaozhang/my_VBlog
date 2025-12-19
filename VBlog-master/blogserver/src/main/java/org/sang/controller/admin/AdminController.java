@@ -48,4 +48,9 @@ public class AdminController {
     public int getTotalPV() {
         return articleService.getTotalPV(); // 获取总访问量
     }
+
+    @RequestMapping(value = "/article/latest", method = RequestMethod.GET)
+    public List<Article> getLatestArticles(@RequestParam(value = "count", defaultValue = "3") Integer count) {
+        return articleService.getLatestArticles(count); // 获取最新文章
+    }
 }

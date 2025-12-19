@@ -39,4 +39,6 @@ public interface ArticleMapper {
     List<Integer> getDataStatistics();
 
     int getTotalPV();
+
+    List<Article> getLatestArticles(@Param("count") Integer count);
 }

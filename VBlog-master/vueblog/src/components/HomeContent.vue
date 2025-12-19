@@ -91,29 +91,7 @@
   export default {
     data() {
       return {
-        recentArticles: [
-          {
-            id: 1,
-            title: 'Vue.js入门教程',
-            cateName: '技术分享',
-            nickname: '管理员',
-            publishDate: '2025-12-18'
-          },
-          {
-            id: 2,
-            title: 'Spring Boot实战',
-            cateName: '后端开发',
-            nickname: '技术专家',
-            publishDate: '2025-12-17'
-          },
-          {
-            id: 3,
-            title: 'Element UI使用指南',
-            cateName: '前端开发',
-            nickname: '前端工程师',
-            publishDate: '2025-12-16'
-          }
-        ],
+        recentArticles: [],
         totalUsers: 0,
         totalArticles: 0,
         totalCategories: 0,
@@ -125,6 +103,7 @@
       this.loadArticleCount()
       this.loadCategoryCount()
       this.loadPVCount()
+      this.loadRecentArticles()
     },
     methods: {
       viewArticle(id) {
@@ -159,6 +138,14 @@
         getRequest('/admin/pv/total').then(resp => {
           if (resp.status == 200) {
             _this.totalPV = resp.data
+          }
+        })
+      },
+      loadRecentArticles() {
+        var _this = this
+        getRequest('/admin/article/latest').then(resp => {
+          if (resp.status == 200) {
+            _this.recentArticles = resp.data
           }
         })
       }
