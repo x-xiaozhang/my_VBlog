@@ -85,4 +85,7 @@
     <select id="getDataStatistics" resultType="int">
         SELECT pv from pv ORDER by countDate limit 7
     </select>
+    <select id="getTotalPV" resultType="int">
+        SELECT SUM(pv) from pv
+    </select>
 </mapper>

@@ -10,7 +10,7 @@
         <el-col :span="6">
           <el-card class="stat-card">
             <div class="stat-info">
-              <div class="stat-number">123</div>
+              <div class="stat-number">{{ totalArticles }}</div>
               <div class="stat-label">总文章数</div>
             </div>
             <div class="stat-icon article-icon"></div>
@@ -19,7 +19,7 @@
         <el-col :span="6">
           <el-card class="stat-card">
             <div class="stat-info">
-              <div class="stat-number">45</div>
+              <div class="stat-number">{{ totalUsers }}</div>
               <div class="stat-label">总用户数</div>
             </div>
             <div class="stat-icon user-icon"></div>
@@ -28,7 +28,7 @@
         <el-col :span="6">
           <el-card class="stat-card">
             <div class="stat-info">
-              <div class="stat-number">7890</div>
+              <div class="stat-number">{{ totalPV }}</div>
               <div class="stat-label">总访问量</div>
             </div>
             <div class="stat-icon view-icon"></div>
@@ -37,7 +37,7 @@
         <el-col :span="6">
           <el-card class="stat-card">
             <div class="stat-info">
-              <div class="stat-number">12</div>
+              <div class="stat-number">{{ totalCategories }}</div>
               <div class="stat-label">栏目数量</div>
             </div>
             <div class="stat-icon cate-icon"></div>
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+  import {getRequest} from '../utils/api'
   export default {
     data() {
       return {
@@ -112,12 +113,54 @@
             nickname: '前端工程师',
             publishDate: '2025-12-16'
           }
-        ]
+        ],
+        totalUsers: 0,
+        totalArticles: 0,
+        totalCategories: 0,
+        totalPV: 0
       }
+    },
+    mounted() {
+      this.loadUserCount()
+      this.loadArticleCount()
+      this.loadCategoryCount()
+      this.loadPVCount()
     },
     methods: {
       viewArticle(id) {
         this.$router.push({ path: '/blogDetail', query: { aid: id } })
+      },
+      loadUserCount() {
+        var _this = this
+        getRequest('/admin/user/count').then(resp => {
+          if (resp.status == 200) {
+            _this.totalUsers = resp.data
+          }
+        })
+      },
+      loadArticleCount() {
+        var _this = this
+        getRequest('/admin/article/count').then(resp => {
+          if (resp.status == 200) {
+            _this.totalArticles = resp.data
+          }
+        })
+      },
+      loadCategoryCount() {
+        var _this = this
+        getRequest('/admin/category/count').then(resp => {
+          if (resp.status == 200) {
+            _this.totalCategories = resp.data
+          }
+        })
+      },
+      loadPVCount() {
+        var _this = this
+        getRequest('/admin/pv/total').then(resp => {
+          if (resp.status == 200) {
+            _this.totalPV = resp.data
+          }
+        })
       }
     }
   }

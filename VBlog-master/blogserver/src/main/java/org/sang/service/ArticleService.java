@@ -112,4 +112,12 @@ public class ArticleService {
     public List<Integer> getDataStatistics() {
         return articleMapper.getDataStatistics();
     }
+
+    /**
+     * 获取总访问量
+     * @return
+     */
+    public int getTotalPV() {
+        return articleMapper.getTotalPV();
+    }
 }

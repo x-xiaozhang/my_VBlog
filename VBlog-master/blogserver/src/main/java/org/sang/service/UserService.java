@@ -82,4 +82,8 @@ public class UserService implements UserDetailsService {
     public User getUserById(Long id) {
         return userMapper.getUserById(id);
     }
+    
+    public int getUserCount() {
+        return userMapper.getUserCount();
+    }
 }
