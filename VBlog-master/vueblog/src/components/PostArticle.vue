@@ -57,11 +57,11 @@
           if (resp.status == 200) {
             _this.article = resp.data;
           } else {
-            _this.$message({type: 'error', message: '1页面加载失败!'})
+            _this.$message({type: 'error', message: '页面加载失败!'})
           }
         }, resp=> {
           _this.loading = false;
-          _this.$message({type: 'error', message: '2页面加载失败!'})
+          _this.$message({type: 'error', message: '页面加载失败!'})
         })
       }
     },
