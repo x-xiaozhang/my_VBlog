@@ -59,6 +59,12 @@
     <update id="updateArticleStateById" >
         UPDATE article SET state=#{state} WHERE id = #{articleId}
     </update>
+    <update id="updateArticleStateByIds" >
+        UPDATE article SET state=#{state} WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
     <delete id="deleteArticleById">
         DELETE FROM article WHERE id IN
         <foreach collection="ids" item="id" open="(" close=")" separator=",">

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * Created by sang on 2017/12/20.
  */
 public class Article {
-    private Long id;
+    private Integer id;
     private String title;
     private String mdContent;
     private String htmlContent;
@@ -53,11 +53,11 @@ public class Article {
         this.editTime = editTime;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

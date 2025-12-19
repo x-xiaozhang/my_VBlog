@@ -81,12 +81,12 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Article getArticleById(@PathVariable Long id) {
+    public Article getArticleById(@PathVariable Integer id) {
         return articleService.getArticleById(id);
     }
 
     @RequestMapping(value = "/dustbin", method = RequestMethod.PUT)
-    public RespBean updateArticleState(Long[] ids, Integer state) {
+    public RespBean updateArticleState(Integer[] ids, Integer state) {
         if (articleService.updateArticleState(ids, state) == ids.length) {
             return new RespBean("success", "删除成功!");
         }
@@ -99,6 +99,14 @@ public class ArticleController {
             return new RespBean("success", "还原成功!");
         }
         return new RespBean("error", "还原失败!");
+    }
+    
+    @RequestMapping(value = "/restore/batch", method = RequestMethod.PUT)
+    public RespBean restoreArticles(Integer[] ids) {
+        if (articleService.restoreArticles(ids) == ids.length) {
+            return new RespBean("success", "批量还原成功!");
+        }
+        return new RespBean("error", "批量还原失败!");
     }
 
     @RequestMapping("/dataStatistics")

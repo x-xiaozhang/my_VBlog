@@ -75,7 +75,7 @@ public class ArticleService {
         return articleMapper.getArticleCountByState(state, keywords);
     }
 
-    public int updateArticleState(Long[] ids, Integer state) {
+    public int updateArticleState(Integer[] ids, Integer state) {
         if (state == 2) {
             return articleMapper.deleteArticleById(ids);
         } else {
@@ -86,8 +86,12 @@ public class ArticleService {
     public int restoreArticle(Integer articleId) {
         return articleMapper.updateArticleStateById(articleId, 1); // 从回收站还原在原处
     }
+    
+    public int restoreArticles(Integer[] ids) {
+        return articleMapper.updateArticleStateByIds(ids, 1); // 批量从回收站还原文章
+    }
 
-    public Article getArticleById(Long id) {
+    public Article getArticleById(Integer id) {
         Article article = articleMapper.getArticleById(id);
         articleMapper.pvIncrement(id);
         return article;
