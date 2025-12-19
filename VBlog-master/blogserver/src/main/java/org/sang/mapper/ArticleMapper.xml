@@ -88,4 +88,11 @@
     <select id="getTotalPV" resultType="int">
         SELECT SUM(pv) from pv
     </select>
+
+    <select id="getLatestArticles" resultType="org.sang.bean.Article">
+        SELECT a.id, a.title, a.cateName, a.nickname, a.publishDate FROM article a 
+        WHERE a.state = 1 
+        ORDER BY a.publishDate DESC 
+        LIMIT #{count}
+    </select>
 </mapper>

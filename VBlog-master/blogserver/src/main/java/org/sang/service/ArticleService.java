@@ -120,4 +120,8 @@ public class ArticleService {
     public int getTotalPV() {
         return articleMapper.getTotalPV();
     }
+
+    public List<Article> getLatestArticles(Integer count) {
+        return articleMapper.getLatestArticles(count);
+    }
 }
