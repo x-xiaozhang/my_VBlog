@@ -20,19 +20,19 @@
       <el-aside width="200px">
         <el-menu
           default-active="0"
-          class="el-menu-vertical-demo" style="background-color: #ECECEC" router>
+          class="el-menu-vertical-demo" style="background-color: #ECECEC" @select="handleMenuSelect">
           <template v-for="(item,index) in this.$router.options.routes" v-if="!item.hidden">
             <el-submenu :index="index+''" v-if="item.children.length>1" :key="index">
               <template slot="title">
                 <i :class="item.iconCls"></i>
                 <span>{{item.name}}</span>
               </template>
-              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="child.path" :key="child.path">
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="child.path" :key="child.path" :data-name="child.name">
                 {{child.name}}
               </el-menu-item>
             </el-submenu>
             <template v-else>
-              <el-menu-item :index="item.children[0].path">
+              <el-menu-item :index="item.children[0].path" :data-name="item.children[0].name">
                 <i :class="item.children[0].iconCls"></i>
                 <span slot="title">{{item.children[0].name}}</span>
               </el-menu-item>
@@ -71,6 +71,23 @@
             _this.currentUserName = '游客';
             _this.$router.replace({path: '/'});
           })
+        }
+      },
+      handleMenuSelect(key, keyPath) {
+        // 获取点击的菜单项名称
+        const menuItem = event.target.closest('.el-menu-item');
+        const menuName = menuItem ? menuItem.getAttribute('data-name') : '';
+        
+        // 如果是AI小助手，则在新标签页打开独立版本
+        if (menuName === 'AI小助手') {
+          // 获取当前页面的完整URL
+          const currentUrl = window.location.href;
+          // 构建新的URL，使用独立的AI助手路由
+          const newUrl = currentUrl.replace(window.location.hash, '#/aiAssistantStandalone');
+          window.open(newUrl, '_blank');
+        } else {
+          // 其他菜单项正常路由跳转
+          this.$router.push(key);
         }
       }
     },
