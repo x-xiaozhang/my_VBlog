@@ -20,7 +20,7 @@ export default new Router({
       name: '登录',
       hidden: true,
       component: Login
-    }, {
+    }, { 
       path: '/home',
       name: '',
       component: Home,
@@ -42,6 +42,12 @@ export default new Router({
           }
         }
       ]
+    }, { 
+      // 独立的AI助手路由，用于在新标签页直接访问
+      path: '/aiAssistantStandalone',
+      name: 'AI小助手独立版',
+      component: AIAssistant,
+      hidden: true
     }, { 
       path: '/home',
       component: Home,
@@ -120,13 +126,13 @@ export default new Router({
     }, {
       path: '/home',
       component: Home,
-      name: 'AI助手',
-      iconCls: 'fa fa-robot',
+      name: 'AI小助手',
+      iconCls: 'fa fa-android',
       children: [
         {
           path: '/aiAssistant',
-          iconCls: 'fa fa-robot',
-          name: 'AI助手',
+          iconCls: 'fa fa-android',
+          name: 'AI小助手',
           component: AIAssistant,
           meta: {
             keepAlive: false

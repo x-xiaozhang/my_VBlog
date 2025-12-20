@@ -1,8 +1,8 @@
 <template>
-  <div class="ai-assistant-container">
+  <div class="ai-assistant-container" :class="{ 'standalone': isStandalone }">
     <el-card class="chat-card">
       <div slot="header" class="card-header">
-        <span><i class="fa fa-robot"></i> AI助手 - DeepSeek R1</span>
+        <span><img src="../assets/logo2.png" alt="DeepSeek" class="deepseek-logo"> AI助手 - DeepSeek R1</span>
       </div>
       
       <div class="chat-messages" ref="messagesContainer">
@@ -67,10 +67,13 @@ export default {
     return {
       messages: [],
       inputMessage: '',
-      loading: false
+      loading: false,
+      isStandalone: false
     }
   },
   mounted() {
+    // 判断是否为独立版本
+    this.isStandalone = this.$route.path === '/aiAssistantStandalone';
     // 添加欢迎消息
     this.addWelcomeMessage();
   },
@@ -165,6 +168,16 @@ export default {
   flex-direction: column;
 }
 
+/* 独立版本的样式 */
+.ai-assistant-container.standalone {
+  height: 100vh;
+  padding: 10px;
+}
+
+.ai-assistant-container.standalone .chat-messages {
+  max-height: calc(100vh - 200px);
+}
+
 .chat-card {
   flex: 1;
   display: flex;
@@ -178,8 +191,14 @@ export default {
   color: #409EFF;
 }
 
-.card-header i {
+.card-header i, .card-header .deepseek-logo {
   margin-right: 8px;
+}
+
+.card-header .deepseek-logo {
+  height: 24px;
+  width: auto;
+  vertical-align: middle;
 }
 
 .chat-messages {
