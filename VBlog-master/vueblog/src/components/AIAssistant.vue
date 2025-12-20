@@ -1,8 +1,9 @@
 <template>
   <div class="ai-assistant-container" :class="{ 'standalone': isStandalone }">
-    <el-card class="chat-card">
+    <!-- 非独立版本的卡片布局 -->
+    <el-card class="chat-card" v-if="!isStandalone">
       <div slot="header" class="card-header">
-        <span><img src="../assets/logo2.png" alt="DeepSeek" class="deepseek-logo"> AI助手 - DeepSeek R1</span>
+        <span><img src="../assets/logo2.png" alt="DeepSeek" class="deepseek-logo"></span>
       </div>
       
       <div class="chat-messages" ref="messagesContainer">
@@ -55,6 +56,72 @@
         </div>
       </div>
     </el-card>
+    
+    <!-- 独立版本的左右分栏布局 -->
+    <div v-if="isStandalone" class="ai-split-layout">
+      <!-- 左侧栏：15%宽度 -->
+      <div class="left-sidebar">
+        <img src="../assets/logo2.png" alt="DeepSeek" class="deepseek-logo sidebar-logo">
+        <el-button 
+          class="sidebar-button"
+          @click="clearMessages" 
+          :disabled="loading"
+          type="default"
+        >
+          <i class="fa fa-trash"></i> 清空对话
+        </el-button>
+      </div>
+      
+      <!-- 右侧栏：85%宽度 -->
+      <div class="right-content">
+        <div class="chat-messages" ref="messagesContainer">
+          <div 
+            v-for="(msg, index) in messages" 
+            :key="index" 
+            :class="['message-item', msg.role === 'user' ? 'user-message' : 'ai-message']"
+          >
+            <div class="message-avatar">
+              <i :class="msg.role === 'user' ? 'fa fa-user' : 'fa fa-robot'"></i>
+            </div>
+            <div class="message-content">
+              <div class="message-text" v-html="formatMessage(msg.content)"></div>
+              <div class="message-time">{{ msg.time }}</div>
+            </div>
+          </div>
+          <div v-if="loading" class="message-item ai-message">
+            <div class="message-avatar">
+              <i class="fa fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <div class="message-text">
+                <i class="el-icon-loading"></i> AI正在思考中...
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="chat-input-area">
+          <el-input
+            v-model="inputMessage"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入您的问题..."
+            @keydown.native.ctrl.enter="sendMessage"
+            :disabled="loading"
+          ></el-input>
+          <div class="input-actions">
+            <el-button 
+              type="primary" 
+              @click="sendMessage" 
+              :loading="loading"
+              :disabled="!inputMessage.trim()"
+            >
+              <i class="fa fa-paper-plane"></i> 发送 (Ctrl+Enter)
+            </el-button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -221,6 +288,80 @@ export default {
   height: 24px;
   width: auto;
   vertical-align: middle;
+}
+
+/* 独立版本的左右分栏布局 */
+.ai-split-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+/* 左侧栏样式 */
+.left-sidebar {
+  width: 15%;
+  height: 100%;
+  background-color: #f0f2f5;
+  border-right: 1px solid #e4e7ed;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* 左侧栏logo样式 */
+.sidebar-logo {
+  height: 40px;
+  width: auto;
+  margin-bottom: 20px;
+  align-self: flex-start;
+}
+
+/* 左侧栏按钮样式 */
+.sidebar-button {
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.sidebar-button:hover {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+/* 非独立版本的输入区域按钮样式 */
+.input-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* 右侧内容区域样式 */
+.right-content {
+  width: 85%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-content .chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.right-content .chat-input-area {
+  padding: 20px;
+  background-color: white;
+  border-top: 1px solid #e4e7ed;
 }
 
 .chat-messages {
