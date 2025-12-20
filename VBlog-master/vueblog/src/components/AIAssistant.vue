@@ -171,11 +171,33 @@ export default {
 /* 独立版本的样式 */
 .ai-assistant-container.standalone {
   height: 100vh;
-  padding: 10px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.ai-assistant-container.standalone .chat-card {
+  margin: 0;
+  border-radius: 0;
+  height: 100%;
+  box-shadow: none;
 }
 
 .ai-assistant-container.standalone .chat-messages {
   max-height: calc(100vh - 200px);
+  padding: 15px;
+}
+
+/* 全局样式重置，消除浏览器默认边距 */
+.ai-assistant-container.standalone::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: #f5f5f5;
 }
 
 .chat-card {
@@ -317,4 +339,3 @@ export default {
   background: #555;
 }
 </style>
-
