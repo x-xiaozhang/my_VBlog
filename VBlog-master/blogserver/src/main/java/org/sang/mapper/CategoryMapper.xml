@@ -6,6 +6,13 @@
     <select id="getAllCategories" resultType="org.sang.bean.Category">
         SELECT * FROM category
     </select>
+    
+    <select id="getCategoriesByIds" resultType="org.sang.bean.Category">
+        SELECT * FROM category WHERE id IN 
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
     <delete id="deleteCategoryByIds">
         DELETE FROM category WHERE id IN
         <foreach collection="ids" separator="," open="(" close=")" item="id">

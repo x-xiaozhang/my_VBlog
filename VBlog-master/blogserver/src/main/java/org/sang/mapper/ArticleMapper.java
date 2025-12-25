@@ -43,4 +43,6 @@ public interface ArticleMapper {
     int getTotalPV();
 
     List<Article> getLatestArticles(@Param("count") Integer count);
+    
+    int deleteArticleByCateNames(@Param("cateNames") String[] cateNames);
 }

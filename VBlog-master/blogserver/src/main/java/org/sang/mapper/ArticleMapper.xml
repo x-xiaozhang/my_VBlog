@@ -99,4 +99,11 @@
         ORDER BY a.publishDate DESC 
         LIMIT #{count}
     </select>
+    
+    <delete id="deleteArticleByCateNames">
+        DELETE FROM article WHERE cateName IN 
+        <foreach collection="cateNames" item="cateName" separator="," open="(" close=")">
+            #{cateName}
+        </foreach>
+    </delete>
 </mapper>

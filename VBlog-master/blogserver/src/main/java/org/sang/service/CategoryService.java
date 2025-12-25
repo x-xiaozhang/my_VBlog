@@ -1,6 +1,7 @@
 package org.sang.service;
 
 import org.sang.bean.Category;
+import org.sang.mapper.ArticleMapper;
 import org.sang.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ import java.util.List;
 public class CategoryService {
     @Autowired
     CategoryMapper categoryMapper;
+    
+    @Autowired
+    ArticleMapper articleMapper;
 
     public List<Category> getAllCategories() {
         return categoryMapper.getAllCategories();
@@ -24,6 +28,19 @@ public class CategoryService {
 
     public boolean deleteCategoryByIds(String ids) {
         String[] split = ids.split(",");
+        
+        // Get categories first to get their names
+        List<Category> categories = categoryMapper.getCategoriesByIds(split);
+        
+        if (categories != null && !categories.isEmpty()) {
+            // Extract category names
+            String[] cateNames = categories.stream().map(Category::getCateName).toArray(String[]::new);
+            
+            // Delete articles by category names
+            articleMapper.deleteArticleByCateNames(cateNames);
+        }
+        
+        // Delete categories
         int result = categoryMapper.deleteCategoryByIds(split);
         return result == split.length;
     }
