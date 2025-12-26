@@ -313,9 +313,9 @@ export default {
 
 /* 左侧栏logo样式 */
 .sidebar-logo {
-  height: 40px;
+  height: 28px;
   width: auto;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   align-self: flex-start;
 }
 
