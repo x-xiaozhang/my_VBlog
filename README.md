@@ -28,7 +28,8 @@ http://localhost:8080/#/
 ![栏目管理](pictures/cataMana.png)
 
 ### 数据统计
-![数据统计](pictures/charts1.png)(pictures/charts2.png)
+![数据统计](pictures/charts1.png)
+![数据统计](pictures/charts2.png)
 
 ### AI 功能
 ![AI](pictures/ai.png)
